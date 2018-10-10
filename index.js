@@ -1,9 +1,13 @@
-const Interpreter = require('./src/Interpreter');
-const Parser      = require('./src/Parser');
-const Lexer       = require('./src/Lexer');
+const Interpreter = require('./src/structures/Interpreter');
+const Parser      = require('./src/structures/Parser');
+const Lexer       = require('./src/structures/Lexer');
 
-module.exports = class TatsuScript {
-    static run(script, message) {
-        return new Interpreter(message).interpret(Parser.parse(Lexer.lex(script)));
+module.exports = class TatsuScript extends Interpreter {
+    constructor(message) {
+        super(message);
+    }
+    
+    run(script) {
+        return this.interpret(Parser.parse(Lexer.lex(script)));
     }
 };
