@@ -28,7 +28,7 @@ console.log(output); // 1
 Example using [Discord.JS](https://discord.js.org)
 ```js
 commander.registerFunction('sendfile', function(url) { // SHOULD NOT BE AN ANON/ARROW FUNCTION
-    url = this.interpret(url); // url should be interpreter, it's a token
+    url = this.interpret(url); // url should be interpreted, it's a token
 
     this.msg.channel.send(new Discord.Attachment(url));
 
