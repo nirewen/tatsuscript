@@ -1,6 +1,6 @@
 {
   "name": "tatsuscript",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An Interpreter for Tatsumaki Tags",
   "main": "index.js",
   "scripts": {
