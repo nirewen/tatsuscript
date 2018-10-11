@@ -1,3 +1,3 @@
 export default function (msg) {
-  return msg.content.split(' ').length;
+  return msg.content.split(/\s+/).length;
 };
