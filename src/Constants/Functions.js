@@ -1,4 +1,4 @@
-const Token = require('../core/Token');
+const Token = require('../Core/Token');
 const idRegex = /\d{16,18}/;
 const moment = require('moment-timezone');
 let variables = { i: new Token('WORD', '0') };

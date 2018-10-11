@@ -1,5 +1,5 @@
-import Lexer from './core/Lexer';
-import Parser from './core/Parser';
+import Lexer from './Core/Lexer';
+import Parser from './Core/Parser';
 import Functions from './Constants/Functions';
 
 class TatsuScript {
