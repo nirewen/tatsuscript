@@ -1,0 +1,4 @@
+
+  nl: function () {
+    return '\n';
+  },
