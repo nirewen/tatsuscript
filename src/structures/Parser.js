@@ -4,7 +4,7 @@ class Parser {
         let end = [];
         for (let i = initialIndex; i < tokens.length; i++) {
             let token = tokens[i];
-            if ((Array.isArray(stopToken) && stopToken.includes(token.type)) || stopToken === token.type) 
+            if ((Array.isArray(stopToken) && stopToken.includes(token.type)) || stopToken === token.type)
                 return {value: end, lastToken: i, lastTokenType: token.type};
 
             switch(token.type) {

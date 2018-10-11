@@ -1,8 +1,7 @@
 const TatsuScript = require('../');
-const commander = new TatsuScript({});
 
 const script = '{abs;-1}';
 
-const output = commander.run(script);
+const output = TatsuScript.run(script, 'foo');
 
 console.log(output);
