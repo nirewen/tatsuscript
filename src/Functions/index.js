@@ -3,7 +3,7 @@ const idRegex = /\d{16,18}/;
 const moment = require('moment-timezone');
 let variables = { i: new Token('WORD', '0') };
 
-const Functions = {
+export default {
   abs (num) {
     return num
       ? Math.abs(this.interpret(num))
@@ -344,5 +344,3 @@ const Functions = {
     return this.member.nick || this.member.nickname || '';
   }
 };
-
-module.exports = Functions;
