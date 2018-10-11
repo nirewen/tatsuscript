@@ -1,25 +1,23 @@
-const Parser    = require('../structures/Parser');
-const Lexer     = require('../structures/Lexer');
-const Token     = require('../structures/Token');
+const Token     = require('../core/Token');
 const idRegex   = /\d{16,18}/;
 const moment    = require('moment-timezone');
 let variables   = {i: new Token('WORD', '0')};
 
 const Functions = {
-    abs: function (num) { 
-        return num 
-            ? Math.abs(this.interpret(num)) 
+    abs (num) {
+        return num
+            ? Math.abs(this.interpret(num))
             : NaN;
     },
-    args: function () { 
-        return this.msg.content.split(' ');
+    args: function (msg) {
+        return msg.content.split(' ');
     },
-    argslen: function () { 
-        return this.msg.content.split(' ').length;
+    argslen: function (msg) {
+        return msg.content.split(' ').length;
     },
-    avg: function (...numbers) { 
-        return numbers.length > 0 
-            ? numbers.reduce((tot, crr) => tot + Number(this.interpret(crr)), 0) / numbers.length 
+    avg: function (...numbers) {
+        return numbers.length > 0
+            ? numbers.reduce((tot, crr) => tot + Number(this.interpret(crr)), 0) / numbers.length
             : '';
     },
     base: function (number, in_radix, out_radix) {
@@ -42,16 +40,16 @@ const Functions = {
             '>>': (n1, n2) => n1 >> n2,
             '>>>': (n1, n2) => n1 >>> n2,
         };
-        
+
         if (!num1 || !operator)
             return '`Invalid number (arg 1)`';
 
         if (!num2 && operator && !['!', '~'].includes(this.interpret(operator)))
             return '`Invalid number (arg 2)`';
-        
+
         operator = this.interpret(operator);
         num1 = Number(this.interpret(num1));
-        
+
         if (num2) {
             num2 = Number(this.interpret(num2));
             if (!bitwises[operator])
@@ -63,37 +61,37 @@ const Functions = {
             return bitwises[operator](num1);
         }
     },
-    ceil: function (num) { 
-        return num ? Math.ceil(this.interpret(num)) : NaN 
+    ceil: function (num) {
+        return num ? Math.ceil(this.interpret(num)) : NaN
     },
-    channelid: function () { 
+    channelid: function () {
         return this.channel.id;
     },
-    channelname: function () { 
+    channelname: function () {
         return this.channel.name;
     },
-    channeltopic: function () { 
+    channeltopic: function () {
         return this.channel.topic;
     },
-    decr: function (num = new Token('WORD', '0')) { 
+    decr: function (num = new Token('WORD', '0')) {
         num = Number(this.interpret(num)) || 0;
         return num - 1;
     },
-    floor: function (num) { 
+    floor: function (num) {
         return num ? Math.floor(this.interpret(num)) : NaN;
     },
     get: function (name) {
         name = this.interpret(name);
-        
+
         if (variables[name]) {
-            if (this.currentVar && this.currentVar == name) 
+            if (this.currentVar && this.currentVar == name)
                 return '';
             this.currentVar = name;
             return this.interpret(variables[name]);
         }
         return '';
     },
-    i: function (depth) { 
+    i: function (depth) {
         return variables.i ? this.interpret(variables.i) : '';
     },
     if: function (operator, value1, value2, then, el) {
@@ -108,33 +106,33 @@ const Functions = {
             '&&': (v1, v2) => v1 && v2,
         };
         operator = this.interpret(operator);
-        if (!operator || !comparators[operator]) 
+        if (!operator || !comparators[operator])
             return '`Invalid operator`';
-        if (!value1 || !value2 || !then || !el) 
+        if (!value1 || !value2 || !then || !el)
             return '';
         if (comparators[operator])
             boolean = comparators[operator](this.interpret(value1), this.interpret(value2));
-        
+
         return boolean == 'false' || boolean == '0' || !boolean
             ? this.interpret(el)
             : this.interpret(then);
     },
-    incr: function (num) { 
+    incr: function (num) {
         return num ? Number(this.interpret(num)) + 1 : '';
     },
-    indexof: function (str, search) { 
+    indexof: function (str, search) {
         return str && search ? this.interpret(str).indexOf(this.interpret(search)) : '';
     },
-    inject: function (code) { 
-        return code ? this.interpret(Parser.parse(Lexer.lex(this.interpret(code)))) : '';
+    inject: function (code) {
+        return code ? this.interpret(code) : '';
     },
-    lastindexof: function (str, search) { 
+    lastindexof: function (str, search) {
         return str && search ? this.interpret(str).lastIndexOf(this.interpret(search)) : '';
     },
-    lb: function () { 
+    lb: function () {
         return '{';
     },
-    length: function (str) { 
+    length: function (str) {
         return str ? this.interpret(str).length : '';
     },
     loop: function (init, final, code = new Token('WORD', ''), separator)  {
@@ -144,23 +142,23 @@ const Functions = {
         init = this.interpret(init);
         final = this.interpret(final);
         separator = separator ? this.interpret(separator) : '';
-        
+
         if (init > final)
             return 'Invalid number pair';
-        
+
         if ((final - init) > 100)
             return 'Range too large (over 100)';
-        
+
         for (let i = init; i <= final; i++) {
             variables.i = new Token('WORD', i);
             end.push(this.interpret(code));
         }
-        
+
         variables.i = oldValue;
         return end.join(separator);
     },
-    lower: function (str) { 
-        return str ? this.interpret(str).toLowerCase() : '' 
+    lower: function (str) {
+        return str ? this.interpret(str).toLowerCase() : ''
     },
     math: function (operator, ...numbers) {
         if (!operator) return '`Invalid operator`';
@@ -168,13 +166,13 @@ const Functions = {
         numbers = numbers.map(n => isNaN(this.interpret(n)) ? 0 : Number(this.interpret(n)));
         operator = this.interpret(operator);
         let operators = {
-            '+': (a, b) => a + b, 
-            '-': (a, b) => a - b, 
+            '+': (a, b) => a + b,
+            '-': (a, b) => a - b,
             '/': (a, b) => a / b,
-            '*': (a, b) => a * b, 
-            '%': (a, b) => a % b, 
-            '^': (a, b) => a ** b, 
-            'sqrt': a => Math.sqrt(a), 
+            '*': (a, b) => a * b,
+            '%': (a, b) => a % b,
+            '^': (a, b) => a ** b,
+            'sqrt': a => Math.sqrt(a),
             'cbrt': a => Math.cbrt(a),
         };
         if (operator in operators) {
@@ -185,7 +183,7 @@ const Functions = {
         } else
             return '`Invalid operator`';
     },
-    nl: function () { 
+    nl: function () {
         return '\n';
     },
     pad: function (direction, str, size, pattern = new Token('WORD', '')) {
@@ -195,16 +193,16 @@ const Functions = {
         str = this.interpret(str);
         size = this.interpret(size);
         pattern = this.interpret(pattern);
-        
+
         if (['l', 'left'].includes(direction))
             return str.padStart(size, pattern);
-        
+
         if (['r', 'right'].includes(direction))
             return str.padEnd(size, pattern);
-        
+
         return str;
     },
-    randarg: function () { 
+    randarg: function () {
         return args[~~(Math.random() * args.length)]
     },
     randchoice: function (...choices) {
@@ -225,10 +223,10 @@ const Functions = {
             temp += str[~~(Math.random() * str.length)];
         return temp;
     },
-    randuser: function () { 
+    randuser: function () {
         return this.channel.guild.members.random().id;
     },
-    rb: function () { 
+    rb: function () {
         return '}';
     },
     regexreplace: function (str, regex, to) {
@@ -238,44 +236,44 @@ const Functions = {
         to = this.interpret(to);
         return str.replace(new RegExp(regex.split(/\//)[1], regex.split(/\//)[2]), to);
     },
-    repeat: function (str, amount) { 
+    repeat: function (str, amount) {
         return str && amount ? this.interpret(str).repeat(this.interpret(amount)) : '';
     },
-    replace: function (str, from, to) { 
+    replace: function (str, from, to) {
         return str && from && to ? this.interpret(str).replace(this.interpret(from), this.interpret(to)) : '';
     },
-    reverse: function (str) { 
+    reverse: function (str) {
         return str ? this.interpret(str).split('').reverse().join('') : '';
     },
-    round: function (num) { 
+    round: function (num) {
         return num ? Math.round(this.interpret(num)) : '';
     },
-    semi: function () { 
+    semi: function () {
         return ';';
     },
-    serverid: function () { 
+    serverid: function () {
         return this.channel.guild.id;
     },
-    servername: function () { 
+    servername: function () {
         return this.channel.guild.name;
     },
-    serverusers: function () { 
+    serverusers: function () {
         return this.channel.guild.memberCount;
     },
     set: function (name, value = new Token('WORD', '')) {
         if (!name) return '`Invalid variable name`';
         name = this.interpret(name);
-        
+
         variables[name] = value;
         return '';
     },
-    shuffle: function (str) { 
+    shuffle: function (str) {
         return str ? this.interpret(str).split('').sort(() => 0.5 - Math.random()).join('') : '';
     },
     space: function (num = new Token('WORD', '1')) {
         return ' '.repeat(this.interpret(num));
     },
-    substr: function (str, start, end) { 
+    substr: function (str, start, end) {
         str   = this.interpret(str);
         start = this.interpret(start || new Token('WORD', 0));
         end   = this.interpret(end || new Token('WORD', str.length));
@@ -288,7 +286,7 @@ const Functions = {
         for (let i = 0; i < cases.length; i += 2)
             if (this.interpret(cases[i]) == this.interpret(value))
                 return this.interpret(cases[i + 1]);
-            
+
         return this.interpret(def);
     },
     time: function (format = new Token('WORD', 'LTS'), timestamp = new Token('WORD', `${moment()}`), tz = new Token('WORD', 'Asia/Singapore')) {
@@ -297,13 +295,13 @@ const Functions = {
         tz        = this.interpret(tz);
         return moment(timestamp).tz(tz).format(format);
     },
-    upper: function (str) { 
+    upper: function (str) {
         return str ? this.interpret(str).toUpperCase() : '';
     },
     usercreatedat: function (str) {
         let match = str ? this.interpret(str).match(idRegex) : '';
         if (match)
-            return this.channel.guild.members.has(match[0]) 
+            return this.channel.guild.members.has(match[0])
                 ? this.channel.guild.members.get(match[0]).user.createdAt
                 : '`User not found`';
         return this.author.createdAt;
@@ -311,7 +309,7 @@ const Functions = {
     userdiscrim: function (str) {
         let match = str ? this.interpret(str).match(idRegex) : '';
         if (match)
-            return this.channel.guild.members.has(match[0]) 
+            return this.channel.guild.members.has(match[0])
                 ? this.channel.guild.members.get(match[0]).discriminator
                 : '`User not found`';
 
@@ -320,7 +318,7 @@ const Functions = {
     userid: function (str) {
         let match = str ? this.interpret(str).match(regex) : '';
         if (match)
-            return this.channel.guild.members.has(match[0]) 
+            return this.channel.guild.members.has(match[0])
                 ? this.channel.guild.members.get(match[0]).id
                 : '`User not found`';
 
@@ -330,7 +328,7 @@ const Functions = {
         console.log(this);
         let match = str ? this.interpret(str).match(regex) : '';
         if (match)
-            return this.channel.guild.members.has(match[0]) 
+            return this.channel.guild.members.has(match[0])
                 ? this.channel.guild.members.get(match[0]).username
                 : '`User not found`';
 
@@ -339,7 +337,7 @@ const Functions = {
     usernick: function (str) {
         let match = str ? this.interpret(str).match(idRegex) : '';
         if (match)
-            return this.channel.guild.members.has(match[0]) 
+            return this.channel.guild.members.has(match[0])
                 ? this.channel.guild.members.get(match[0]).nick || this.channel.guild.members.get(match[0]).nickname || ''
                 : '`User not found`';
 

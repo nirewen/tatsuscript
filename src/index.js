@@ -1,13 +1,18 @@
-import Lexer from './structures/Lexer';
-import Parser from './structures/Parser';
+import Lexer from './core/Lexer';
+import Parser from './core/Parser';
 import Functions from './Constants/Functions';
 
 class TatsuScript {
-  constructor (functions) {
+  constructor (functions, parser, lexer) {
     this.functions = functions;
+    this.parser = parser;
+    this.lexer = lexer;
   }
 
-  interpret (tokens, args) {
+  interpret (script, args) {
+    const tokens = Array.isArray(script) ? script : this.parser(this.lexer(script));
+
+
     return tokens.map((token) => {
       if (token.type !== 'BRACKETGROUP') {
         return token.value;
@@ -25,11 +30,13 @@ class TatsuScript {
 
   registerFunction (name, callback) {
     this.functions[name] = callback;
+
+    return this;
   }
 
   run (script, ...args) {
-    return this.interpret(Parser.parse(Lexer.lex(script)), args);
+    return this.interpret(script, args);
   }
 };
 
-export default new TatsuScript(Functions);
+export default new TatsuScript(Functions, Parser, Lexer);
