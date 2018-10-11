@@ -31,3 +31,15 @@ assert.equal('bar', variables.foo[0].value);
  * Get function
  */
 assert.equal('bar', TatsuScript.run('{get;foo}'));
+
+/**
+ * Bit function
+ */
+assert.equal('0', TatsuScript.run('{bit;!;2}'));
+assert.equal('-3', TatsuScript.run('{bit;~;2}'));
+assert.equal('2', TatsuScript.run('{bit;&;2;10}'));
+assert.equal('8', TatsuScript.run('{bit;^;2;10}'));
+assert.equal('10', TatsuScript.run('{bit;|;2;10}'));
+assert.equal('2048', TatsuScript.run('{bit;<<;2;10}'));
+assert.equal('0', TatsuScript.run('{bit;>>;2;10}'));
+assert.equal('0', TatsuScript.run('{bit;>>>;2;10}'));

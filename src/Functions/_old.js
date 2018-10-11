@@ -19,38 +19,6 @@ export default {
     out_radix = this.interpret(out_radix);
     return parseInt(number, in_radix, out_radix);
   },
-  bit: function (operator, num1, num2) {
-    let bitwises = {
-      '!': (n) => +!n,
-      '~': (n) => ~n,
-      '&': (n1, n2) => n1 & n2,
-      '^': (n1, n2) => n1 ^ n2,
-      '|': (n1, n2) => n1 | n2,
-      '<<': (n1, n2) => n1 << n2,
-      '>>': (n1, n2) => n1 >> n2,
-      '>>>': (n1, n2) => n1 >>> n2,
-    };
-
-    if (!num1 || !operator)
-      return '`Invalid number (arg 1)`';
-
-    if (!num2 && operator && !['!', '~'].includes(this.interpret(operator)))
-      return '`Invalid number (arg 2)`';
-
-    operator = this.interpret(operator);
-    num1 = Number(this.interpret(num1));
-
-    if (num2) {
-      num2 = Number(this.interpret(num2));
-      if (!bitwises[operator])
-        return '`Invalid operator`';
-      return bitwises[operator](num1, num2);
-    } else {
-      if (!bitwises[operator])
-        return '`Invalid operator`';
-      return bitwises[operator](num1);
-    }
-  },
   ceil: function (num) {
     return num ? Math.ceil(this.interpret(num)) : NaN
   },
