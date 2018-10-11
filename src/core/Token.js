@@ -1,7 +1,7 @@
 class Token {
-    constructor(type, value) {
-        return [{type, value}];
-    }
+  constructor (type, value) {
+    return [{ type, value }];
+  }
 }
 
 module.exports = Token;

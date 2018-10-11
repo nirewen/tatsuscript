@@ -10,8 +10,9 @@ class TatsuScript {
   }
 
   interpret (script, args) {
-    const tokens = Array.isArray(script) ? script : this.parser(this.lexer(script));
-
+    const tokens = Array.isArray(script)
+      ? script
+      : this.parser(this.lexer(script));
 
     return tokens.map((token) => {
       if (token.type !== 'BRACKETGROUP') {

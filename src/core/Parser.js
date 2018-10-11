@@ -1,33 +1,47 @@
 import Token from './Token';
 
-const parse = (tokens, stopToken = 'NONE', initialIndex = 0, argIndex = 0) => {
-  let end = [];
-  for (let i = initialIndex; i < tokens.length; i++) {
-    let token = tokens[i];
-    if ((Array.isArray(stopToken) && stopToken.includes(token.type)) || stopToken === token.type)
-      return { value: end, lastToken: i, lastTokenType: token.type };
+const parse = (tokens, stop = 'none', index = 0, arg = 0) => {
+  const end = [];
+
+  for (index; index < tokens.length; index++) {
+    const token = tokens[index];
+
+    if ((Array.isArray(stop) && stop.includes(token.type)) || stop === token.type) {
+      return {
+        value: end,
+        lastToken: index,
+        lastTokenType: token.type,
+      };
+    }
 
     switch (token.type) {
       case 'LBRACKET':
-        let bracketGroup = parse(tokens, ['RBRACKET', 'EOF'], i + 1);
+        const brackets = parse(tokens, [
+          'RBRACKET', 'EOF',
+        ], index + 1);
 
-        if (bracketGroup.lastTokenType === 'EOF') {
+        if (brackets.lastTokenType === 'EOF') {
           end.push(new Token('WORD', token.value));
           break;
         }
 
-        end.push(new Token('BRACKETGROUP', Array.isArray(bracketGroup) ? bracketGroup : bracketGroup.value)[0]);
-        i = bracketGroup.lastToken;
+        end.push(new Token('BRACKETGROUP', Array.isArray(brackets) ? brackets : brackets.value)[0]);
+        index = brackets.lastToken;
         break;
       case 'SEMI':
-        let argsGroup = parse(tokens, ['SEMI', 'RBRACKET', 'EOF'], i + 1);
-        end.push(argsGroup.value);
-        i = argsGroup.lastToken - 1;
+        const args = parse(tokens, [
+          'SEMI', 'RBRACKET', 'EOF',
+        ], index + 1);
+
+        end.push(args.value);
+
+        index = args.lastToken - 1;
         break;
       default:
         end.push(token);
-    }
+    };
   }
+
   return end;
 };
 
