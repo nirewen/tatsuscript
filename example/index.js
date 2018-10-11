@@ -1,7 +1,14 @@
 const TatsuScript = require('../');
+const assert = require('assert');
 
-const script = '{abs;-1}';
+/**
+ * Abs function.
+ */
+assert.equal(1, TatsuScript.run('{abs;-1}'));
 
-const output = TatsuScript.run(script, 'foo');
-
-console.log(output);
+/**
+ * Args function.
+ */
+assert.equal('foo,bar', TatsuScript.run('{args}', {
+  content: 'foo bar',
+}));
