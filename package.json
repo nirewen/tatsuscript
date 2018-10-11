@@ -4,6 +4,7 @@
   "description": "An Interpreter for Tatsumaki Tags",
   "main": "dist/index.js",
   "scripts": {
+    "example": "node example",
     "prepublishOnly": "babel src -d dist",
     "build": "babel src -d dist"
   },

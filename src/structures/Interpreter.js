@@ -1,5 +1,5 @@
 const AbstractFunction = require('./Function');
-const Functions = require('../constants/Functions');
+const Functions = require('../Constants/Functions');
 
 class Interpreter {
     constructor(msg) { 

@@ -1,6 +1,6 @@
-const Interpreter = require('./src/structures/Interpreter');
-const Parser      = require('./src/structures/Parser');
-const Lexer       = require('./src/structures/Lexer');
+const Interpreter = require('./structures/Interpreter');
+const Parser      = require('./structures/Parser');
+const Lexer       = require('./structures/Lexer');
 
 module.exports = class TatsuScript extends Interpreter {
     constructor(message) {
