@@ -1,0 +1,4 @@
+
+  lb: function () {
+    return '{';
+  },

@@ -1,0 +1,4 @@
+
+  rb: function () {
+    return '}';
+  },

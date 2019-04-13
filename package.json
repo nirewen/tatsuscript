@@ -2,9 +2,11 @@
   "name": "tatsuscript",
   "version": "1.1.0",
   "description": "An Interpreter for Tatsumaki Tags",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "example": "node example",
+    "prepublishOnly": "rm -r ./dist -f && babel src -d dist",
+    "build": "rm -r ./dist -f && babel src -d dist"
   },
   "repository": {
     "type": "git",
@@ -18,12 +20,18 @@
     "command"
   ],
   "author": "Nirewen",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nirewen/tatsuscript/issues"
   },
   "homepage": "https://github.com/nirewen/tatsuscript#readme",
   "dependencies": {
     "moment-timezone": "^0.5.14"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "babel-plugin-add-module-exports": "^1.0.0"
   }
 }

@@ -1,0 +1,4 @@
+
+  semi: function () {
+    return ';';
+  },
