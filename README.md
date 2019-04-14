@@ -14,11 +14,10 @@ npm install tatsuscript --save
 
 ```js
 const TatsuScript = require('tatsuscript');
-const commander = new TatsuScript(message); // should be a Message object, e.g. in a message event
 
 let script = '{abs;-1}'; // the absolute function
 
-let output = commander.run(script);
+let output = TatsuScript.run(script, message); // the message is the context the command was run in
 
 console.log(output); // 1
 ```
@@ -27,11 +26,11 @@ console.log(output); // 1
 
 Example using [Discord.JS](https://discord.js.org)
 ```js
-commander.registerFunction('sendfile', function(url) { // SHOULD NOT BE AN ANON/ARROW FUNCTION
+TatsuScript.registerFunction('sendfile', function (url) {
     url = this.interpret(url); // url should be interpreted, it's a token
 
-    this.msg.channel.send(new Discord.Attachment(url));
+    this.context.channel.send(new Discord.MessageAttachment(url));
 
-    return `Sent file to ${this.msg.channel.name}`;
+    return `Sent file to ${this.context.channel.name}`;
 });
 ```
