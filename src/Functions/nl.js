@@ -1,4 +1,3 @@
-
-  nl: function () {
-    return '\n';
-  },
+export default function () {
+  return '\n';
+};

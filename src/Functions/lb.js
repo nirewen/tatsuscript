@@ -1,4 +1,3 @@
-
-  lb: function () {
-    return '{';
-  },
+export default function () {
+  return '{';
+};

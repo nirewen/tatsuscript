@@ -1,3 +1,3 @@
-export default function (msg) {
-  return msg.content.split(/\s+/).length;
+export default function () {
+  return this.context.content.split(/\s+/).length;
 };

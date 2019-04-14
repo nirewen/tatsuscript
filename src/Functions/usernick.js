@@ -1,10 +1,12 @@
+import regex from './Common/idRegex';
 
-  usernick: function (str) {
-    let match = str ? this.interpret(str).match(idRegex) : '';
-    if (match)
-      return this.channel.guild.members.has(match[0])
-        ? this.channel.guild.members.get(match[0]).nick || this.channel.guild.members.get(match[0]).nickname || ''
-        : '`User not found`';
+export default function (str) {
+  let match = str ? this.interpret(str).match(regex) : '';
 
-    return this.member.nick || this.member.nickname || '';
-  }
+  if (match)
+    return this.context.channel.guild.members.has(match[0])
+      ? this.context.channel.guild.members.get(match[0]).nick || this.context.channel.guild.members.get(match[0]).nickname || ''
+      : '`User not found`';
+
+  return this.context.member.nick || this.context.member.nickname || '';
+};

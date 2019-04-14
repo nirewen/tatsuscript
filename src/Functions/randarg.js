@@ -1,4 +1,5 @@
+export default function () {
+  let args = this.context.content.split(/\s+/);
 
-  randarg: function () {
-    return args[~~(Math.random() * args.length)]
-  },
+  return args[Math.floor(Math.random() * args.length)]
+};

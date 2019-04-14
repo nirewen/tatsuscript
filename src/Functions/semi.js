@@ -1,4 +1,3 @@
-
-  semi: function () {
-    return ';';
-  },
+export default function () {
+  return ';';
+};

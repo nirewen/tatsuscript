@@ -1,4 +1,3 @@
-
-  incr: function (num) {
-    return num ? Number(this.interpret(num)) + 1 : '';
-  },
+export default function (num) {
+  return num ? Number(this.interpret(num)) + 1 : '';
+};

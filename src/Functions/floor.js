@@ -1,4 +1,3 @@
-
-  floor: function (num) {
-    return num ? Math.floor(this.interpret(num)) : NaN;
-  },
+export default function (num) {
+  return num ? Math.floor(this.interpret(num)) : NaN;
+};

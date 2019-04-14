@@ -1,3 +1,3 @@
 export default function () {
-  return this.channel.topic;
+  return this.context.channel.topic;
 };

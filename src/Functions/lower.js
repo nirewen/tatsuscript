@@ -1,4 +1,3 @@
-
-  lower: function (str) {
-    return str ? this.interpret(str).toLowerCase() : ''
-  },
+export default function (str) {
+  return str ? this.interpret(str).toLowerCase() : ''
+};

@@ -1,4 +1,3 @@
-
-  randuser: function () {
-    return this.channel.guild.members.random().id;
-  },
+export default function () {
+  return this.context.channel.guild.members.random().id;
+};

@@ -1,10 +1,12 @@
+import regex from './Common/idRegex';
 
-  userdiscrim: function (str) {
-    let match = str ? this.interpret(str).match(idRegex) : '';
-    if (match)
-      return this.channel.guild.members.has(match[0])
-        ? this.channel.guild.members.get(match[0]).discriminator
-        : '`User not found`';
+export default function (str) {
+  let match = str ? this.interpret(str).match(regex) : '';
+  
+  if (match)
+    return this.context.channel.guild.members.has(match[0])
+      ? this.context.channel.guild.members.get(match[0]).discriminator
+      : '`User not found`';
 
-    return this.author.discriminator;
-  },
+  return this.context.author.discriminator;
+};

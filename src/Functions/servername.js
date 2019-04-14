@@ -1,4 +1,3 @@
-
-  servername: function () {
-    return this.channel.guild.name;
-  },
+export default function () {
+  return this.context.channel.guild.name;
+};

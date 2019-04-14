@@ -1,4 +1,3 @@
-
-  reverse: function (str) {
-    return str ? this.interpret(str).split('').reverse().join('') : '';
-  },
+export default function (str) {
+  return str ? this.interpret(str).split('').reverse().join('') : '';
+};

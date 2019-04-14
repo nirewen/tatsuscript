@@ -9,7 +9,7 @@ class TatsuScript {
     this.lexer = lexer;
   }
 
-  interpret (script, args) {
+  interpret (script) {
     const tokens = Array.isArray(script)
       ? script
       : this.parser(this.lexer(script));
@@ -22,7 +22,7 @@ class TatsuScript {
       const { value } = token.value.shift();
 
       if (value in this.functions) {
-        return this.functions[value].call(this, ...token.value, ...args);
+        return this.functions[value].call(this, ...token.value);
       }
 
       return 'Invalid tag name';
@@ -35,8 +35,10 @@ class TatsuScript {
     return this;
   }
 
-  run (script, ...args) {
-    return this.interpret(script, args);
+  run (script, context) {
+    this.context = context;
+    
+    return this.interpret(script);
   }
 };
 

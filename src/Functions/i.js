@@ -1,4 +1,5 @@
+import variables from './Common/variables';
 
-  i: function (depth) {
-    return variables.i ? this.interpret(variables.i) : '';
-  },
+export default function (depth) {
+  return variables.i ? this.interpret(variables.i) : '';
+};

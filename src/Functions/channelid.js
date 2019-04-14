@@ -1,3 +1,3 @@
 export default function () {
-  return this.channel.id;
+  return this.context.channel.id;
 };

@@ -1,4 +1,3 @@
-
-  rb: function () {
-    return '}';
-  },
+export default function () {
+  return '}';
+};

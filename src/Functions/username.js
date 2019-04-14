@@ -1,11 +1,12 @@
+import regex from './Common/idRegex';
 
-  username: function (str) {
-    console.log(this);
-    let match = str ? this.interpret(str).match(regex) : '';
-    if (match)
-      return this.channel.guild.members.has(match[0])
-        ? this.channel.guild.members.get(match[0]).username
-        : '`User not found`';
+export default function (str) {
+  let match = str ? this.interpret(str).match(regex) : '';
 
-    return this.author.username;
-  },
+  if (match)
+    return this.context.channel.guild.members.has(match[0])
+      ? this.context.channel.guild.members.get(match[0]).user.username
+      : '`User not found`';
+
+  return this.context.author.username;
+};
