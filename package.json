@@ -8,6 +8,9 @@
     "prepublishOnly": "rm -r ./dist -f && babel src -d dist",
     "build": "rm -r ./dist -f && babel src -d dist"
   },
+  "files": [
+    "dist/"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nirewen/tatsuscript.git"
