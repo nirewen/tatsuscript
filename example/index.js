@@ -317,7 +317,7 @@ assert.equal('AAAAA', TatsuScript.run('{upper;aaaAa}'));
 assert.equal('600000', TatsuScript.run('{usercreatedat;123456789123456789}', {
   channel: { guild: { members: {
     get: () => ({ user: { createdAt: 600000 } }),
-    has: () => true 
+    has: () => true
   } } },
 }));
 assert.equal('600000', TatsuScript.run('{usercreatedat}', {
@@ -330,7 +330,7 @@ assert.equal('600000', TatsuScript.run('{usercreatedat}', {
 assert.equal('4000', TatsuScript.run('{userdiscrim;123456789123456789}', {
   channel: { guild: { members: {
     get: () => ({ discriminator: '4000' }),
-    has: () => true 
+    has: () => true
   } } },
 }));
 assert.equal('4000', TatsuScript.run('{userdiscrim}', {
@@ -343,7 +343,7 @@ assert.equal('4000', TatsuScript.run('{userdiscrim}', {
 assert.equal('123456789123456789', TatsuScript.run('{userid;<@123456789123456789>}', {
   channel: { guild: { members: {
     get: () => ({ id: '123456789123456789' }),
-    has: () => true 
+    has: () => true
   } } },
 }));
 assert.equal('123456789123456789', TatsuScript.run('{userid}', {
@@ -356,7 +356,7 @@ assert.equal('123456789123456789', TatsuScript.run('{userid}', {
 assert.equal('foobar', TatsuScript.run('{username;<@123456789123456789>}', {
   channel: { guild: { members: {
     get: () => ({ user: { username: 'foobar' } }),
-    has: () => true 
+    has: () => true
   } } },
 }));
 assert.equal('foobar', TatsuScript.run('{username}', {
@@ -369,13 +369,13 @@ assert.equal('foobar', TatsuScript.run('{username}', {
 assert.equal('foobar', TatsuScript.run('{usernick;<@123456789123456789>}', {
   channel: { guild: { members: {
     get: () => ({ nick: 'foobar' }),
-    has: () => true 
+    has: () => true
   } } },
 }));
 assert.equal('foobar', TatsuScript.run('{usernick;<@123456789123456789>}', {
   channel: { guild: { members: {
     get: () => ({ nickname: 'foobar' }),
-    has: () => true 
+    has: () => true
   } } },
 }));
 assert.equal('foobar', TatsuScript.run('{usernick}', {
@@ -384,3 +384,8 @@ assert.equal('foobar', TatsuScript.run('{usernick}', {
 assert.equal('foobar', TatsuScript.run('{usernick}', {
   member: { nickname: 'foobar' },
 }));
+
+/**
+ * Some edge cases.
+ */
+assert.equal('012345678910', TatsuScript.run('{loop;0;10;{i}}'));
