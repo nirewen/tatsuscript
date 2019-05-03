@@ -19,7 +19,7 @@ export default function (init, final, code = new Token('WORD', ''), separator) {
 
   for (let i = init; i <= final; i++) {
     variables.i = new Token('WORD', i);
-    end.push(this.interpret(code));
+    end.push(this.interpret(JSON.parse(JSON.stringify(code))));
   }
 
   variables.i = oldValue;
