@@ -19,13 +19,15 @@ class TatsuScript {
         return token.value;
       }
 
-      const { value } = token.value.shift();
+      const { value = [] } = (token.value.shift() || {});
 
       if (value in this.functions) {
         return this.functions[value].call(this, ...token.value);
       }
 
-      return 'Invalid tag name';
+      if (value.length) {
+        return 'Invalid tag name';
+      }
     }).join('');
   }
 
@@ -37,7 +39,7 @@ class TatsuScript {
 
   run (script, context) {
     this.context = context;
-    
+
     return this.interpret(script);
   }
 };

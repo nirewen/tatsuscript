@@ -40,6 +40,7 @@ const parse = (tokens, stop = 'none', index = 0, arg = 0) => {
       default:
         end.push(token);
     };
+
   }
 
   return end;
