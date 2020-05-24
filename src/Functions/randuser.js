@@ -1,3 +1,7 @@
 export default function () {
-  return this.context.channel.guild.members.random().id;
+  const members = this.context.channel.guild.members.cache
+    ? this.context.channel.guild.members.cache
+    : this.context.channel.guild.members;
+
+  return members.random().id;
 };

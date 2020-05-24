@@ -212,7 +212,7 @@ assert.equal('a', TatsuScript.run('{randstr;a;1}'));
  * randuser function
  */
 assert.equal('123456789123456789', TatsuScript.run('{randuser}', {
-  channel: { guild: { members: { random: () => ({ id: '123456789123456789' }) } } },
+  channel: { guild: { members: { cache: { random: () => ({ id: '123456789123456789' }) } } } },
 }));
 
 /**
@@ -269,10 +269,10 @@ assert.equal('foobar', TatsuScript.run('{servername}', {
  * serverusers function
  */
 assert.equal('100', TatsuScript.run('{serverusers}', {
-  channel: { guild: { members: { size: 100 } } },
+  channel: { guild: { members: { cache: { size: 100 } } } },
 }));
 assert.equal('100', TatsuScript.run('{serverusers}', {
-  channel: { guild: { members: {}, memberCount: 100 } },
+  channel: { guild: { members: { cache: {} }, memberCount: 100 } },
 }));
 
 /**
@@ -315,10 +315,10 @@ assert.equal('AAAAA', TatsuScript.run('{upper;aaaAa}'));
  * usercreatedat function
  */
 assert.equal('600000', TatsuScript.run('{usercreatedat;123456789123456789}', {
-  channel: { guild: { members: {
+  channel: { guild: { members: { cache: {
     get: () => ({ user: { createdAt: 600000 } }),
     has: () => true 
-  } } },
+  } } } },
 }));
 assert.equal('600000', TatsuScript.run('{usercreatedat}', {
   author: { createdAt: 600000 },
@@ -328,10 +328,10 @@ assert.equal('600000', TatsuScript.run('{usercreatedat}', {
  * userdiscrim function
  */
 assert.equal('4000', TatsuScript.run('{userdiscrim;123456789123456789}', {
-  channel: { guild: { members: {
+  channel: { guild: { members: { cache: {
     get: () => ({ discriminator: '4000' }),
     has: () => true 
-  } } },
+  } } } },
 }));
 assert.equal('4000', TatsuScript.run('{userdiscrim}', {
   author: { discriminator: '4000' },
@@ -341,10 +341,10 @@ assert.equal('4000', TatsuScript.run('{userdiscrim}', {
  * userid function
  */
 assert.equal('123456789123456789', TatsuScript.run('{userid;<@123456789123456789>}', {
-  channel: { guild: { members: {
+  channel: { guild: { members: { cache: {
     get: () => ({ id: '123456789123456789' }),
     has: () => true 
-  } } },
+  } } } },
 }));
 assert.equal('123456789123456789', TatsuScript.run('{userid}', {
   author: { id: '123456789123456789' },
@@ -354,10 +354,10 @@ assert.equal('123456789123456789', TatsuScript.run('{userid}', {
  * username function
  */
 assert.equal('foobar', TatsuScript.run('{username;<@123456789123456789>}', {
-  channel: { guild: { members: {
+  channel: { guild: { members: { cache: {
     get: () => ({ user: { username: 'foobar' } }),
     has: () => true 
-  } } },
+  } } } },
 }));
 assert.equal('foobar', TatsuScript.run('{username}', {
   author: { username: 'foobar' },
@@ -367,16 +367,16 @@ assert.equal('foobar', TatsuScript.run('{username}', {
  * usernick function
  */
 assert.equal('foobar', TatsuScript.run('{usernick;<@123456789123456789>}', {
-  channel: { guild: { members: {
+  channel: { guild: { members: { cache: {
     get: () => ({ nick: 'foobar' }),
     has: () => true 
-  } } },
+  } } } },
 }));
 assert.equal('foobar', TatsuScript.run('{usernick;<@123456789123456789>}', {
-  channel: { guild: { members: {
+  channel: { guild: { members: { cache: {
     get: () => ({ nickname: 'foobar' }),
     has: () => true 
-  } } },
+  } } } },
 }));
 assert.equal('foobar', TatsuScript.run('{usernick}', {
   member: { nick: 'foobar' },
